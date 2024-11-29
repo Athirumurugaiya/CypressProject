@@ -23,3 +23,33 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add(
+  "setDevice",
+  (size: "Mobile S" | "Mobile M" | "Tablet" | "Desktop") => {
+    switch (size) {
+      case "Mobile S":
+        cy.viewport(414, 896);
+        break;
+      case "Mobile M":
+        cy.viewport(412, 869);
+        break;
+      case "Tablet":
+        cy.viewport(768, 832);
+        break;
+      case "Desktop":
+        cy.viewport(1920, 1080);
+        break;
+      default:
+        throw new Error("Invalid viewport size");
+    }
+  }
+);
+
+declare namespace Cypress {
+  interface Chainable {
+    setDevice(
+      size: "Mobile S" | "Mobile M" | "Tablet" | "Desktop"
+    ): Chainable<void>;
+  }
+}
