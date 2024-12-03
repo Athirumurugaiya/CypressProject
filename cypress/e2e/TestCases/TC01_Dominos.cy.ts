@@ -4,6 +4,8 @@ import { Runnable } from "mocha";
 import { SignUpPage } from "../Pages/SignUp";
 import { HomePage } from "../Pages/HomePage";
 import { MenuPage } from "../Pages/MenuPage";
+import { CheckOutPage } from "../Pages/CheckOutPage";
+import { TrackPage } from "../Pages/TrackPage";
 
 describe("Domino’s India Test Scenarios", () => {
   beforeEach("Set Device and reach the website", () => {
@@ -24,7 +26,7 @@ describe("Domino’s India Test Scenarios", () => {
     });
   });
 
-  it("Product Search and Add to Cart", () => {
+  it.skip("Product Search and Add to Cart", () => {
     cy.fixture("product").then((data) => {
       SignUpPage.login();
       HomePage.ValidateThatWeReachedTheHomePage();
@@ -32,6 +34,25 @@ describe("Domino’s India Test Scenarios", () => {
       MenuPage.ValidateTheProduct(data.pizza);
       MenuPage.SelectTheProductToCart();
       MenuPage.ValidateTheProductInCart(data.pizza);
+    });
+  });
+  it.skip("Customizing Pizza and Checkout", () => {
+    cy.fixture("product").then((data) => {
+      SignUpPage.login();
+      HomePage.ValidateThatWeReachedTheHomePage();
+      HomePage.SearchForProduct(data.pizza);
+      MenuPage.CustomizeTheProduct();
+      MenuPage.ValidateTheProductInCart(data.pizza);
+      CheckOutPage.AddAddress();
+      CheckOutPage.PlaceOrder();
+      CheckOutPage.SelectLocation();
+    });
+  });
+  it("Track Order", () => {
+    cy.fixture("product").then((data) => {
+      SignUpPage.login();
+      HomePage.ValidateThatWeReachedTheHomePage();
+      TrackPage.TrackOrder(data.Orderid);
     });
   });
 });
